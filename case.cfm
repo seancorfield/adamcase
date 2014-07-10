@@ -19,42 +19,31 @@ struct function case(){
                 return {
                     then = function(value){
                         requireValue(argumentCollection=arguments)
-                        var result = value()
                         var ender   = {
                             end  = function(){
-                                return result ?: javaCast("null","")
+                                return value() ?: javaCast("null","")
                             }
                         }
                         var whenner = { }
                         var thenner = {
-                            when = function(condition){
-                                requireCondition(argumentCollection=arguments)
-                                return whenner
-                            },
-                            else = function(value){
-                                requireValue(argumentCollection=arguments)
-                                return ender
-                            },
+                            when = function(_){ return whenner },
+                            else = function(_){ return ender },
                             end = ender.end
                         }
-                        whenner.then = function(condition){
-                            requireCondition(argumentCollection=arguments)
-                            return thenner
-                        }
+                        whenner.then = function(_){ return thenner }
                         return thenner
                     }
                 }
             } else {
                 return {
-                    then = function(value){
+                    then = function(_){
                         return {
                             when = case().when,
                             else = function(value){
                                 requireValue(argumentCollection=arguments)
-                                var result = value()
                                 return {
                                     end = function(){
-                                        return result ?: javaCast("null","")
+                                        return value() ?: javaCast("null","")
                                     }
                                 }
                             },

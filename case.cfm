@@ -35,24 +35,18 @@ struct function case(){
                     }
                 }
             } else {
-                return {
-                    then = function(_){
-                        return {
-                            when = case().when,
-                            else = function(value){
-                                requireValue(argumentCollection=arguments)
-                                return {
-                                    end = function(){
-                                        return value() ?: javaCast("null","")
-                                    }
-                                }
-                            },
-                            end = function(){ return javaCast("null","") }
-                        }
-                    }
+                return { then = case }
+            }
+        },
+        else = function(value){
+            requireValue(argumentCollection=arguments)
+            return {
+                end = function(){
+                    return value() ?: javaCast("null","")
                 }
             }
-        }
+        },
+        end = function(){ return javaCast("null","") }
     }
 }
 </cfscript>
